@@ -5,11 +5,16 @@ function setup() {
   a = 750;
   d = 750;
 
+  IS_ARROW = false;
+  ARROW_FACING = "UP";
+  arrowX = 0;
+  arrowY = 0;
+
   FACING = "DOWN";
 
   GAME_OVER = false;
 
-  IS_ARROW = false;
+  ENEMY_FILL = "red";
 
   score = 10;
 
@@ -42,7 +47,55 @@ function enemyAIStart() {
         clearInterval(interval);
       }
     }
-  }, 1000);
+  }, 400);
+}
+
+function arrowAIStart() {
+  const interval = setInterval(() => {
+    if (ARROW_FACING === "UP") {
+      arrowY = arrowY - 10;
+    }
+
+    if (ARROW_FACING === "DOWN") {
+      arrowY = arrowY + 10;
+    }
+
+    if (ARROW_FACING === "RIGHT") {
+      arrowX = arrowX + 10;
+    }
+
+    if (ARROW_FACING === "LEFT") {
+      arrowX = arrowX - 10;
+    }
+
+    if (arrowX >= 801) {
+      IS_ARROW = false;
+      clearInterval(interval);
+    }
+
+    if (arrowX <= 1) {
+      IS_ARROW = false;
+      clearInterval(interval);
+    }
+
+    if (arrowY <= 1) {
+      IS_ARROW = false;
+      clearInterval(interval);
+    }
+
+    if (arrowY >= 801) {
+      IS_ARROW = false;
+      clearInterval(interval);
+    }
+
+    if (Math.abs(arrowX - a) < 50 && Math.abs(arrowY - d) < 50) {
+      a = 750;
+      d = 750;
+      score = score + 1;
+      IS_ARROW = false;
+      clearInterval(interval);
+    }
+  }, 20);
 }
 
 function draw() {
@@ -87,7 +140,7 @@ function draw() {
     circle(g - 30, h, 10);
   }
 
-  fill("red");
+  fill(ENEMY_FILL);
 
   circle(a, d, 90);
 
@@ -118,22 +171,7 @@ function draw() {
 
   if (IS_ARROW) {
     fill("blue");
-
-    if (FACING === "UP") {
-      square(g - 20, h - 100, 40);
-    }
-
-    if (FACING === "DOWN") {
-      square(g + 130, h - 20, 40);
-    }
-
-    if (FACING === "RIGHT") {
-      square(g - 20, h - 130, 40);
-    }
-
-    if (FACING === "LEFT") {
-      square(g - 20, h + 130, 40);
-    }
+    square(arrowX, arrowY, 40);
   }
 }
 
@@ -185,8 +223,41 @@ function keyPressed() {
   if (keyIsDown(32)) {
     createArrow();
   }
+
+  if (keyIsDown(66)) {
+    swordattack();
+  }
 }
 
 function createArrow() {
+  if (IS_ARROW) {
+    return;
+  }
+
   IS_ARROW = true;
+  ARROW_FACING = FACING;
+
+  if (FACING === "UP") {
+    arrowX = g - 20;
+    arrowY = h - 90;
+  }
+
+  if (FACING === "DOWN") {
+    arrowX = g - 20;
+    arrowY = h + 50;
+  }
+
+  if (FACING === "RIGHT") {
+    arrowX = g + 50;
+    arrowY = h - 20;
+  }
+
+  if (FACING === "LEFT") {
+    arrowX = g - 90;
+    arrowY = h - 20;
+  }
+
+  arrowAIStart();
 }
+
+function swordattack() {}
