@@ -1,5 +1,7 @@
+let Sword_Facing;
+
 function setup() {
-  createCanvas(800, 900);
+  createCanvas(1000, 1000);
   g = 50;
   h = 50;
   a = 750;
@@ -7,8 +9,13 @@ function setup() {
 
   IS_ARROW = false;
   ARROW_FACING = "UP";
-  arrowX = 0;
-  arrowY = 0;
+  arrowX = g;
+  arrowY = h;
+
+  IsSword = false;
+  Sword_Facing = "up";
+  SwordX = 50;
+  SwordY = 50;
 
   FACING = "DOWN";
 
@@ -47,7 +54,7 @@ function enemyAIStart() {
         clearInterval(interval);
       }
     }
-  }, 400);
+  }, 4000);
 }
 
 function arrowAIStart() {
@@ -173,6 +180,11 @@ function draw() {
     fill("blue");
     square(arrowX, arrowY, 40);
   }
+
+  if (IsSword === true) {
+    fill("black");
+    square(SwordX, SwordY, 50);
+  }
 }
 
 function keyPressed() {
@@ -225,7 +237,8 @@ function keyPressed() {
   }
 
   if (keyIsDown(66)) {
-    swordattack();
+    swordAttack();
+    IsSword = true;
   }
 }
 
@@ -260,4 +273,79 @@ function createArrow() {
   arrowAIStart();
 }
 
-function swordattack() {}
+function swordAttack() {
+  Sword_Facing = FACING;
+  if (Sword_Facing === "UP") {
+    SwordX = g - 75;
+    SwordY = h - 100;
+  }
+
+  if (Sword_Facing === "DOWN") {
+    SwordX = g - 75;
+    SwordY = h + 50;
+  }
+
+  if (Sword_Facing === "RIGHT") {
+    SwordX = g + 50;
+    SwordY = h - 75;
+  }
+
+  if (Sword_Facing === "LEFT") {
+    SwordX = g - 100;
+    SwordY = h - 75;
+  }
+
+  let i = 0;
+
+  const interval = setInterval(() => {
+    if (i++ > 10) {
+      i = 0;
+      IsSword = false;
+      clearInterval(interval);
+    }
+
+    if (Sword_Facing === "UP") {
+      SwordX = SwordX + 10;
+    }
+
+    if (Sword_Facing === "DOWN") {
+      SwordX = SwordX + 10;
+    }
+
+    if (Sword_Facing === "RIGHT") {
+      SwordY = SwordY + 10;
+    }
+
+    if (Sword_Facing === "LEFT") {
+      SwordY = SwordY + 10;
+    }
+
+    if (Math.abs(SwordX - a) < 100 && Math.abs(SwordY - d) < 100) {
+      a = 750;
+      d = 750;
+      score = score + 1;
+      IsSword = false;
+      clearInterval(interval);
+    }
+
+    if (SwordX >= 801) {
+      IsSword = false;
+      clearInterval(interval);
+    }
+
+    if (SwordX <= 1) {
+      IsSword = false;
+      clearInterval(interval);
+    }
+
+    if (SwordY <= 1) {
+      IsSword = false;
+      clearInterval(interval);
+    }
+
+    if (SwordY >= 801) {
+      IsSword = false;
+      clearInterval(interval);
+    }
+  }, 30);
+}
