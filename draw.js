@@ -1,5 +1,7 @@
 let Sword_Facing;
 
+const WINNING_SCORE = 100;
+
 function setup() {
   createCanvas(1000, 1000);
 
@@ -27,13 +29,19 @@ function setup() {
 
   ENEMY_FILL = "red";
 
-  score = 10;
+  score = 0;
+  lives = 10;
 
   enemyAIStart();
 }
 
 function enemyAIStart() {
   const interval = setInterval(() => {
+    if (score == WINNING_SCORE) {
+      clearInterval(interval);
+      return;
+    }
+
     if (a > g) {
       a = a - 100;
     }
@@ -51,9 +59,9 @@ function enemyAIStart() {
     }
 
     if (a === g && d === h) {
-      score = score - 1;
+      lives = lives - 1;
 
-      if (score <= 0) {
+      if (lives <= 0) {
         GAME_OVER = true;
         clearInterval(interval);
       }
@@ -115,7 +123,10 @@ function draw() {
 
   textSize(32);
   fill(0, 0, 0);
-  text("score: " + score, 200, 850);
+  text("score: " + score, 600, 850);
+
+  fill(250, 0, 50);
+  text("lives: " + lives, 60, 850);
 
   fill("green");
   square(0, 0, 800);
@@ -172,6 +183,15 @@ function draw() {
     g = 750;
   }
 
+  if (score == WINNING_SCORE) {
+    fill("White");
+    square(200, 200, 400);
+
+    textSize(32);
+    fill(0, 0, 0);
+    text("Victory", 350, 400);
+  }
+
   if (GAME_OVER) {
     fill("White");
     square(200, 200, 400);
@@ -193,17 +213,18 @@ function draw() {
 }
 
 function keyPressed() {
-  if (GAME_OVER && keyIsDown(ENTER)) {
+  if ((GAME_OVER || score == WINNING_SCORE) && keyIsDown(ENTER)) {
     g = 50;
     h = 50;
     a = 750;
     d = 750;
-    score = 10;
+    lives = 10;
+    score = 0;
     GAME_OVER = false;
     enemyAIStart();
   }
 
-  if (GAME_OVER) {
+  if (GAME_OVER || score == WINNING_SCORE) {
     return;
   }
 
