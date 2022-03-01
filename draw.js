@@ -123,7 +123,7 @@ function draw() {
 
   textSize(32);
   fill(0, 0, 0);
-  text("score: " + score, 600, 850);
+  text("score: " + score + " / " + WINNING_SCORE, 600, 850);
 
   fill(250, 0, 50);
   text("lives: " + lives, 60, 850);
