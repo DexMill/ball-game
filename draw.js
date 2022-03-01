@@ -54,7 +54,7 @@ function enemyAIStart() {
         clearInterval(interval);
       }
     }
-  }, 4000);
+  }, 500);
 }
 
 function arrowAIStart() {
@@ -168,7 +168,7 @@ function draw() {
   }
 
   if (GAME_OVER) {
-    fill("white");
+    fill("White");
     square(200, 200, 400);
 
     textSize(32);
@@ -188,7 +188,7 @@ function draw() {
 }
 
 function keyPressed() {
-  if (keyIsDown(ENTER)) {
+  if (GAME_OVER && keyIsDown(ENTER)) {
     g = 50;
     h = 50;
     a = 750;
