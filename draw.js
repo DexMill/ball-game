@@ -1,6 +1,6 @@
 let Sword_Facing;
 
-const WINNING_SCORE = 50;
+const WINNING_SCORE = 100;
 
 function setup() {
   createCanvas(1000, 1000);
