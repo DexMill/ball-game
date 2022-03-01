@@ -2,8 +2,12 @@ let Sword_Facing;
 
 function setup() {
   createCanvas(1000, 1000);
+
+  //player spawn
   g = 50;
   h = 50;
+
+  // \/ is where the coords for the enemy spawn is
   a = 750;
   d = 750;
 
@@ -96,8 +100,9 @@ function arrowAIStart() {
     }
 
     if (Math.abs(arrowX - a) < 50 && Math.abs(arrowY - d) < 50) {
-      a = 750;
-      d = 750;
+      const [newA, newD] = randomCoords();
+      a = newA;
+      d = newD;
       score = score + 1;
       IS_ARROW = false;
       clearInterval(interval);
@@ -321,8 +326,9 @@ function swordAttack() {
     }
 
     if (Math.abs(SwordX - a) < 100 && Math.abs(SwordY - d) < 100) {
-      a = 750;
-      d = 750;
+      const [newA, newD] = randomCoords();
+      a = newA;
+      d = newD;
       score = score + 1;
       IsSword = false;
       clearInterval(interval);
@@ -348,4 +354,10 @@ function swordAttack() {
       clearInterval(interval);
     }
   }, 30);
+}
+
+function randomCoords() {
+  const x = Math.ceil(Math.random() * 7) * 100 + 50;
+  const y = Math.ceil(Math.random() * 7) * 100 + 50;
+  return [x, y];
 }
