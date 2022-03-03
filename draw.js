@@ -14,6 +14,8 @@ let coins = 0;
 
 let kills = 0;
 
+let deaths = 0;
+
 // Possible options: START, GAME
 let SCREEN = "START";
 
@@ -89,6 +91,7 @@ function enemyAIStart() {
 
       if (lives <= 0) {
         GAME_OVER = true;
+        deaths = deaths + 1;
         clearInterval(interval);
       }
     }
@@ -204,6 +207,10 @@ function draw() {
     textSize(32);
     fill(255, 255, 255);
     text("Your number of kills: " + kills, 0, 100);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Your number of deaths: " + deaths, 0, 150);
 
     return;
   }
