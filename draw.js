@@ -8,11 +8,15 @@ let SWORD_ENABLED = true;
 
 let hasEnemyAIStarted = false;
 
+let coinPickedUp = false;
+
+let coins = 0;
+
 // Possible options: START, GAME
 let SCREEN = "START";
 
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(850, 850);
 
   //player spawn
   g = 50;
@@ -21,6 +25,10 @@ function setup() {
   // \/ is where the coords for the enemy spawn is
   a = 750;
   d = 750;
+  // coin spawn
+  const [x, y] = randomCoords();
+  coinX = x;
+  coinY = y;
 
   IS_ARROW = false;
   ARROW_FACING = "UP";
@@ -182,6 +190,10 @@ function draw() {
   fill(0, 0, 0);
   text("score: " + score + " / " + WINNING_SCORE, 600, 850);
 
+  textSize(32);
+  fill(0, 0, 0);
+  text("Coins: " + coins, 350, 850);
+
   fill(250, 0, 50);
   text("lives: " + lives, 60, 850);
 
@@ -223,6 +235,11 @@ function draw() {
   fill(ENEMY_FILL);
 
   circle(a, d, 90);
+
+  if (coinPickedUp === false) {
+    fill("gold");
+    circle(coinX, coinY, 25);
+  }
 
   if (h >= 801) {
     h = 750;
@@ -334,6 +351,19 @@ function keyPressed() {
 
   if (SCREEN == "START" && keyIsDown(81)) {
     SCREEN = "SETTINGS";
+  }
+
+  console.log(g, coinX, h, coinY);
+  if (g === coinX && h === coinY) {
+    coinPickedUp = true;
+    coins = coins + 1;
+
+    setTimeout(() => {
+      const [x, y] = randomCoords();
+      coinX = x;
+      coinY = y;
+      coinPickedUp = false;
+    }, 5000);
   }
 }
 
