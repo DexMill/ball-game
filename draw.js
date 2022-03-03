@@ -2,6 +2,15 @@ let Sword_Facing;
 
 const WINNING_SCORE = 10;
 
+const SWORD_COOLDOWN = 1000;
+
+let SWORD_ENABLED = true;
+
+let hasEnemyAIStarted = false;
+
+// Possible options: START, GAME
+let SCREEN = "START";
+
 function setup() {
   createCanvas(1000, 1000);
 
@@ -32,13 +41,20 @@ function setup() {
   score = 0;
   lives = 10;
 
-  enemyAIStart();
+  if (!hasEnemyAIStarted) {
+    hasEnemyAIStarted = true;
+    enemyAIStart();
+  }
 }
 
 function enemyAIStart() {
   const interval = setInterval(() => {
     if (score == WINNING_SCORE) {
       clearInterval(interval);
+      return;
+    }
+
+    if (SCREEN != "GAME") {
       return;
     }
 
@@ -120,6 +136,20 @@ function arrowAIStart() {
 
 function draw() {
   background("white");
+
+  if (SCREEN == "START") {
+    fill("lightGray");
+    square(0, 0, 800);
+
+    fill("White");
+    square(200, 200, 400);
+
+    textSize(32);
+    fill(0, 0, 0);
+    text("Press S to start", 290, 400);
+
+    return;
+  }
 
   textSize(32);
   fill(0, 0, 0);
@@ -264,7 +294,15 @@ function keyPressed() {
 
   if (keyIsDown(66)) {
     swordAttack();
-    IsSword = true;
+  }
+
+  if (SCREEN == "START" && keyIsDown(83)) {
+    SCREEN = "GAME";
+  }
+
+  if (keyIsDown(17)) {
+    SCREEN = "START";
+    setup();
   }
 }
 
@@ -300,6 +338,18 @@ function createArrow() {
 }
 
 function swordAttack() {
+  if (!SWORD_ENABLED) {
+    return;
+  }
+
+  SWORD_ENABLED = false;
+
+  setTimeout(() => {
+    SWORD_ENABLED = true;
+  }, SWORD_COOLDOWN);
+
+  IsSword = true;
+
   Sword_Facing = FACING;
   if (Sword_Facing === "UP") {
     SwordX = g - 75;
