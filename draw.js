@@ -148,6 +148,33 @@ function draw() {
     fill(0, 0, 0);
     text("Press S to start", 290, 400);
 
+    textSize(32);
+    fill(0, 0, 0);
+    text("Press Q to for settings", 250, 450);
+
+    return;
+  }
+
+  if (SCREEN == "SETTINGS") {
+    fill("darkGrey");
+    square(0, 0, 800);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Movement: Arrow keys look then they move", 0, 300);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Combat: b does sword sword has a 1 sec cooldown", 0, 400);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text(",spacebar does arrows", 0, 440);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("misc: ctrl gose to start, other keys will be on the button", 0, 540);
+
     return;
   }
 
@@ -303,6 +330,10 @@ function keyPressed() {
   if (keyIsDown(17)) {
     SCREEN = "START";
     setup();
+  }
+
+  if (SCREEN == "START" && keyIsDown(81)) {
+    SCREEN = "SETTINGS";
   }
 }
 
