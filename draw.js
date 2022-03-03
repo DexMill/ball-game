@@ -12,6 +12,8 @@ let coinPickedUp = false;
 
 let coins = 0;
 
+let kills = 0;
+
 // Possible options: START, GAME
 let SCREEN = "START";
 
@@ -137,6 +139,7 @@ function arrowAIStart() {
       d = newD;
       score = score + 1;
       IS_ARROW = false;
+      kills = kills + 1;
       clearInterval(interval);
     }
   }, 20);
@@ -154,11 +157,15 @@ function draw() {
 
     textSize(32);
     fill(0, 0, 0);
-    text("Press S to start", 290, 400);
+    text("Press S to start", 290, 250);
 
     textSize(32);
     fill(0, 0, 0);
-    text("Press Q to for settings", 250, 450);
+    text("Press Q to goto settings", 230, 300);
+
+    textSize(32);
+    fill(0, 0, 0);
+    text("Press P to goto profile", 250, 350);
 
     return;
   }
@@ -173,15 +180,30 @@ function draw() {
 
     textSize(32);
     fill(255, 255, 255);
-    text("Combat: b does sword sword has a 1 sec cooldown", 0, 400);
+    text("Combat: b does sword, sword has a 1 sec cooldown,", 0, 400);
 
     textSize(32);
     fill(255, 255, 255);
-    text(",spacebar does arrows", 0, 440);
+    text("spacebar does arrows", 0, 440);
 
     textSize(32);
     fill(255, 255, 255);
-    text("misc: ctrl gose to start, other keys will be on the button", 0, 540);
+    text("Misc: ctrl gose to start, other keys will be on the button", 0, 540);
+
+    return;
+  }
+
+  if (SCREEN == "PROFILE") {
+    fill("Black");
+    square(0, 0, 800);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Your number of coins: " + coins, 0, 50);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Your number of kills: " + kills, 0, 100);
 
     return;
   }
@@ -353,6 +375,10 @@ function keyPressed() {
     SCREEN = "SETTINGS";
   }
 
+  if (SCREEN == "START" && keyIsDown(80)) {
+    SCREEN = "PROFILE";
+  }
+
   console.log(g, coinX, h, coinY);
   if (g === coinX && h === coinY) {
     coinPickedUp = true;
@@ -463,6 +489,7 @@ function swordAttack() {
       d = newD;
       score = score + 1;
       IsSword = false;
+      kills = kills + 1;
       clearInterval(interval);
     }
 
