@@ -16,6 +16,8 @@ let kills = 0;
 
 let deaths = 0;
 
+let wins = 0;
+
 // Possible options: START, GAME
 let SCREEN = "START";
 
@@ -63,6 +65,7 @@ function enemyAIStart() {
   const interval = setInterval(() => {
     if (score == WINNING_SCORE) {
       clearInterval(interval);
+      wins = wins + 1;
       return;
     }
 
@@ -210,7 +213,11 @@ function draw() {
 
     textSize(32);
     fill(255, 255, 255);
-    text("Your number of deaths: " + deaths, 0, 150);
+    text("Your number of loses: " + deaths, 0, 150);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Your number of wins: " + wins, 0, 200);
 
     return;
   }
