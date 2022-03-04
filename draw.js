@@ -18,6 +18,8 @@ let deaths = 0;
 
 let wins = 0;
 
+let arrowSpeed = 20;
+
 // Possible options: START, GAME
 let SCREEN = "START";
 
@@ -148,7 +150,7 @@ function arrowAIStart() {
       kills = kills + 1;
       clearInterval(interval);
     }
-  }, 20);
+  }, arrowSpeed);
 }
 
 function draw() {
@@ -173,10 +175,25 @@ function draw() {
     fill(0, 0, 0);
     text("Press P to goto profile", 250, 350);
 
+    textSize(32);
+    fill(0, 0, 0);
+    text("Press F to goto shop", 255, 400);
+
     return;
   }
 
-  if (SCREEN == "SETTINGS") {
+  if (SCREEN === "SETTINGS") {
+    fill("darkBlue");
+    square(0, 0, 800);
+
+    textSize(32);
+    fill(255, 255, 255);
+    text("Press D to goto controls", 220, 750);
+
+    return;
+  }
+
+  if (SCREEN == "CONTROLS") {
     fill("darkGrey");
     square(0, 0, 800);
 
@@ -218,6 +235,17 @@ function draw() {
     textSize(32);
     fill(255, 255, 255);
     text("Your number of wins: " + wins, 0, 200);
+
+    return;
+  }
+
+  if (SCREEN === "SHOP") {
+    fill("white");
+    square(0, 0, 800);
+
+    textSize(32);
+    fill(0, 0, 0);
+    text("Press A to buy + 1 arrow speed for 5 coins.", 0, 50);
 
     return;
   }
@@ -391,6 +419,27 @@ function keyPressed() {
 
   if (SCREEN == "START" && keyIsDown(80)) {
     SCREEN = "PROFILE";
+  }
+
+  if (SCREEN == "SETTINGS" && keyIsDown(68)) {
+    SCREEN = "CONTROLS";
+  }
+
+  if (SCREEN == "START" && keyIsDown(70)) {
+    SCREEN = "SHOP";
+  }
+
+  if (SCREEN == "SHOP" && coins >= 1 && keyIsDown(65) && arrowSpeed > 1) {
+    arrowSpeed = arrowSpeed - 10;
+    coins = coins - 5;
+    alert("Purchased Arrow Speed!");
+    // setTimeout(() => {
+    //   arrowSpeed = 20;
+    // }, 10000);
+  }
+
+  if (arrowSpeed === 1 && keyIsDown(65) && SCREEN == "SHOP") {
+    alert("Arrow Speed has been maxed out");
   }
 
   console.log(g, coinX, h, coinY);
