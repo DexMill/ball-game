@@ -429,8 +429,8 @@ function keyPressed() {
     SCREEN = "SHOP";
   }
 
-  if (SCREEN == "SHOP" && coins >= 1 && keyIsDown(65) && arrowSpeed > 1) {
-    arrowSpeed = arrowSpeed - 10;
+  if (SCREEN == "SHOP" && coins >= 5 && keyIsDown(65) && arrowSpeed > 1) {
+    arrowSpeed = arrowSpeed - 1;
     coins = coins - 5;
     alert("Purchased Arrow Speed!");
     // setTimeout(() => {
