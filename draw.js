@@ -10,7 +10,7 @@ let hasEnemyAIStarted = false;
 
 let coinPickedUp = false;
 
-let coins = 0;
+let coins = 2;
 
 let kills = 0;
 
@@ -22,6 +22,8 @@ let arrowSpeed = 20;
 
 // Possible options: START, GAME
 let SCREEN = "START";
+
+let speedTimeout;
 
 function setup() {
   createCanvas(850, 850);
@@ -100,7 +102,7 @@ function enemyAIStart() {
         clearInterval(interval);
       }
     }
-  }, 500);
+  }, 50000000);
 }
 
 function arrowAIStart() {
@@ -429,13 +431,15 @@ function keyPressed() {
     SCREEN = "SHOP";
   }
 
-  if (SCREEN == "SHOP" && coins >= 5 && keyIsDown(65) && arrowSpeed > 1) {
-    arrowSpeed = arrowSpeed - 1;
-    coins = coins - 5;
+  if (SCREEN == "SHOP" && coins >= 1 && keyIsDown(65) && arrowSpeed > 1) {
+    arrowSpeed = arrowSpeed - 5;
+    coins = coins - 1;
     alert("Purchased Arrow Speed!");
-    // setTimeout(() => {
-    //   arrowSpeed = 20;
-    // }, 10000);
+
+    clearTimeout(speedTimeout);
+    speedTimeout = setTimeout(() => {
+      arrowSpeed = 20;
+    }, 10000);
   }
 
   if (arrowSpeed === 1 && keyIsDown(65) && SCREEN == "SHOP") {
